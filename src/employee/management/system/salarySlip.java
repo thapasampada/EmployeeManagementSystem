@@ -64,59 +64,58 @@ public class salarySlip extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
      
     	if(e.getSource() == print){
-             text.setText(" ----------------   PAY SLIP   ------------------------");
-             text.append("\n");
-        
-        try{
-            conn c = new conn();
-            String id = cid.getSelectedItem();
-            ResultSet rs = c.s.executeQuery("select * from salary where id="+cid.getSelectedItem());
-            rs.next();
-            String name = rs.getString("name");
-            
-            while(rs.next()){
-                text.append("\n     Employee ID "+rs.getString("id"));
-                text.append("\n     Employee Name "+name);
-                text.append("\n----------------------------------------------------------------");
-                text.append("\n");
-                double basic = rs.getDouble("basic");
-                text.append("\n                  BASIC SALARY : "+basic);
-                double living = rs.getDouble("living");
-                text.append("\n                  Living       : "+living);
-                double overtime  = rs.getDouble("overtime");
-                text.append("\n                  Overtime     : "+overtime);
-                double other  = rs.getDouble("other");
-                text.append("\n                  Other        : "+other);
-                double gross=0;
-                gross = overtime+living+other+basic;
-                
-                
+             
+             
+             try{
+                  conn c = new conn();
+                  ResultSet rs = c.s.executeQuery("select * from employee where id="+cid.getSelectedItem());
+                  rs.next();
+                  String name = rs.getString("name");
+                  rs.close();
+                  rs = c.s.executeQuery("select * from salary where id="+cid.getSelectedItem());
+                  double gross=0;
+                  /*java.util.Date d1 = new java.util.Date();
+                    int month = d1.getMonth();
+                    int year = d1.getYear();*/
+                  while(rs.next()){
+                        text.setText(" ----------------   PAY SLIP FOR THE MONTH OF \"+month+\" , \"+year+\"   ------------------------");
+                        text.append("\n");
+                        text.append("\n     Employee ID "+rs.getString("id"));
+                        text.append("\n     Employee Name "+name);
+                        text.append("\n----------------------------------------------------------------");
+                        text.append("\n");
+                 
+                        double basic = rs.getDouble("basic");
+                        text.append("\n                  BASIC SALARY : "+basic);
+                        double living = rs.getDouble("living");
+                        text.append("\n                  Living       : "+living);
+                        double overtime  = rs.getDouble("overtime");
+                        text.append("\n                  Overtime     : "+overtime);
+                        double other  = rs.getDouble("other");
+                        text.append("\n                  Other        : "+other);
 
-                text.append("\n-------------------------------------------------------");
-                text.append("\n");
- 
-                text.append("\n       GROSS SALARY :"+gross+"    ");
-                text.append("\n       Tax   :   2.1% of gross "+ (gross*2.1/100));   
-                text.append("\n -------------------------------------------------");
-                text.append("\n");
-                text.append("\n");    
-                text.append("\n");
-                text.append("   (  Signature  )      ");
+                        gross = overtime+living+other+basic;
+
+                        text.append("\n-------------------------------------------------------");
+                        text.append("\n");
+
+                        text.append("\n       GROSS SALARY :"+gross+"    ");
+                        text.append("\n       Tax   :   2.1% of gross "+ (gross*2.1/100));   
+                        text.append("\n -------------------------------------------------");
+                        text.append("\n");
+                        text.append("\n");    
+                        text.append("\n");
+                        text.append("   (  Signature  )      ");
+                }
+
+            }catch(Exception ee){
+                ee.printStackTrace();
             }
-            
-        }catch(Exception ee){
-            ee.printStackTrace();
-        }
-    	  
-        }
+
+            }
     }
    
 
-        
-        
-       
-       
-       
     public static void main(String[] args){
         new salarySlip();
     }
