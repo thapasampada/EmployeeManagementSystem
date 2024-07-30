@@ -3,16 +3,23 @@ package employee.management.system;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.*;
+import java.sql.*; 
+
 
 public class salarySlip extends JFrame implements ActionListener {
     Choice cid;
     JTextArea text;
     JButton print, back;
+    Font f;
+    JPanel panel;
+    
     salarySlip(){
         setLayout(null);
         
+        f = new Font("arial",Font.BOLD,16);
+        
         cid = new Choice();
+        cid.setBounds(240, 520, 160, 30);
         try{
             conn c = new conn();
             ResultSet rs = c.s.executeQuery("select * from salary");
@@ -22,62 +29,56 @@ public class salarySlip extends JFrame implements ActionListener {
         }catch(Exception e){
             
         }
+       
         
         JLabel lblid = new JLabel ("Select ID");
-        lblid.setBounds(80, 40, 120, 30);
-        add(lblid);
-        
-        text = new JTextArea(30,50);
-        JScrollPane jsp = new JScrollPane(text);
-     
-        Font f1 = new Font("arial",Font.BOLD,20);
-        text.setFont(f1);
+        lblid.setBounds(80, 520, 160, 30);
+        lblid.setFont(f);
         
         print = new JButton("Generate Pay Slip");
-    
-        add(print,"South");
-        add(jsp,"Center");
+        print.setBounds(440, 520, 200, 30);
         print.addActionListener(this);
         
+        text = new JTextArea();
+        JScrollPane sp = new JScrollPane(text);
+        text.setEditable(false);
+        text.setFont(f);
+        
+        panel = new JPanel();
+        panel.setLayout(new GridLayout(1,3,10,10));
+        panel.add(lblid);
+        panel.add(cid);
+        panel.add(print);
+        panel.add(back);
+        
+        setLayout(new BorderLayout());
+        add(sp,"Center");
+        add(panel,"South");
+        
         setSize(800, 600);
-        setLocation(300, 90);
+        setLocation(300, 40);
+        setVisible(true);
     
     }
    
     public void actionPerformed(ActionEvent e) {
      
-    	  
-    		  
-    	  
-    	
+    	if(e.getSource() == print){
+             text.setText(" ----------------   PAY SLIP   ------------------------");
+             text.append("\n");
+        
         try{
             conn c = new conn();
-         
-            ResultSet rs = c.s.executeQuery("select * from employee where emp_id="+cid.getSelectedItem());
+            String id = cid.getSelectedItem();
+            ResultSet rs = c.s.executeQuery("select * from salary where id="+cid.getSelectedItem());
             rs.next();
             String name = rs.getString("name");
-            rs.close();
-         
-            rs = c.s.executeQuery("select * from salary where id="+cid.getSelectedItem());
-            double gross=0;
             
- 
-            java.util.Date d1 = new java.util.Date();
-            int month = d1.getMonth();
-            int year = d1.getYear();
-            
-            
-            text.setText(" ----------------   PAY SLIP FOR THE MONTH OF "+month+" , "+year+"  ------------------------");
-            text.append("\n");
-  
-            if(rs.next()){
-          
+            while(rs.next()){
                 text.append("\n     Employee ID "+rs.getString("id"));
                 text.append("\n     Employee Name "+name);
- 
                 text.append("\n----------------------------------------------------------------");
                 text.append("\n");
-                
                 double basic = rs.getDouble("basic");
                 text.append("\n                  BASIC SALARY : "+basic);
                 double living = rs.getDouble("living");
@@ -86,7 +87,7 @@ public class salarySlip extends JFrame implements ActionListener {
                 text.append("\n                  Overtime     : "+overtime);
                 double other  = rs.getDouble("other");
                 text.append("\n                  Other        : "+other);
-                
+                double gross=0;
                 gross = overtime+living+other+basic;
                 
                 
@@ -101,16 +102,16 @@ public class salarySlip extends JFrame implements ActionListener {
                 text.append("\n");    
                 text.append("\n");
                 text.append("   (  Signature  )      ");
-               
             }
-        }
-    	  catch(Exception ee) {
+            
+        }catch(Exception ee){
             ee.printStackTrace();
         }
     	  
- 
-   
+        }
     }
+   
+
         
         
        
