@@ -6,7 +6,7 @@ import java.awt.event.*;
 import java.sql.*;
 import net.proteanit.sql.DbUtils;
 
-public class updateSalary extends JFrame implements ActionListener {
+public class updateSalary extends JFrame implements ActionListener, ItemListener {
     Choice id;
     JLabel name;
     JTextField basic, tfliving, tfovertime, tfother, date;
@@ -22,12 +22,14 @@ public class updateSalary extends JFrame implements ActionListener {
 
         id = new Choice();
         id.setBounds(180, 20, 80, 20);
+        id.addItemListener(this);
         add(id);
         
-        search = new JButton("Search");
+        
+        /*search = new JButton("Search");
         search.setBounds(280, 20, 80, 20);
         search.addActionListener(this);
-        add(search);
+        add(search);*/
         
         try{
             conn c = new conn();
@@ -145,11 +147,12 @@ public class updateSalary extends JFrame implements ActionListener {
     }
      public void actionPerformed(ActionEvent ae){
         if(ae.getSource() == update){
+            String cid = id.getSelectedItem();
             String salary = basic.getText();
             String living = tfliving.getText();
             String overtime = tfovertime.getText();
             String other = tfother.getText();
-            String query = "insert into salary values ('"+salary+"','"+living+"','"+overtime+"', '"+other+"')";
+            String query = "update salary set basic="+salary+", living="+living+", overtime="+overtime+", other="+other+" where id="+id.getSelectedItem();
 
             try{
                 conn con = new conn();
@@ -162,7 +165,7 @@ public class updateSalary extends JFrame implements ActionListener {
             catch(Exception e){
                 e.printStackTrace();
             }
-        }else
+        }/*else
             
             if(ae.getSource() == search){
                 
@@ -179,11 +182,30 @@ public class updateSalary extends JFrame implements ActionListener {
             }} catch(Exception e){
                 e.printStackTrace();
             }
-        }
+        }*/
         else {
             setVisible(false);
             new salary();
         } 
+    }
+      public void itemStateChanged(ItemEvent ie)
+    {
+        try{
+           conn c1 = new conn();
+            ResultSet rs = c1.s.executeQuery("select * from salary where id="+id.getSelectedItem());
+            if(rs.next()){
+                name.setText(rs.getString("name"));
+                basic.setText(rs.getString("basic"));
+                tfliving.setText(rs.getString("living"));
+                tfovertime.setText(rs.getString("overtime"));
+                tfother.setText(rs.getString("other"));
+         
+            }
+       }catch(Exception ee){
+           ee.printStackTrace();
+       }
+        
+        
     }
     public static void main(String[] args){
         new updateSalary();
