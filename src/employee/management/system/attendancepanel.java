@@ -4,12 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-
-public class attendance extends JFrame implements ActionListener {
+public class attendancepanel extends JFrame implements ActionListener {
     JLabel heading;
     JButton update, view, back;
-    attendance(){
-        getContentPane().setBackground(new Color(116, 141, 146));
+    attendancepanel(){
+        getContentPane().setBackground(new Color(33, 42, 49));
         setLayout(null);
         
         heading = new JLabel("Attendance Panel");
@@ -21,32 +20,25 @@ public class attendance extends JFrame implements ActionListener {
         update = new JButton("Update");
         update.setBounds(80, 200, 200, 50);
         update.setFont(new Font("serif",Font.PLAIN,28));
-        update.setForeground(new Color(33, 42, 49));
+        update.setForeground(new Color(116, 141, 146));
         update.addActionListener(this);
         add(update);
         
         view = new JButton("View");
         view.setBounds(340, 200, 200, 50);
         view.setFont(new Font("serif",Font.PLAIN,28));
-        view.setForeground(new Color(33, 42, 49));
+        view.setForeground(new Color(116, 141, 146));
         view.addActionListener(this);
         add(view);
-        
-        print = new JButton("Grnerate Slip");
-        print.setBounds(80, 280, 200, 50);
-        print.setFont(new Font("serif",Font.PLAIN,28));
-        print.setForeground(new Color(33, 42, 49));
-        print.addActionListener(this);
-        add(print);
         
         back = new JButton("Back");
         back.setBounds(340, 280, 200, 50);
         back.setFont(new Font("serif",Font.PLAIN,28));
-        back.setForeground(new Color(33, 42, 49));
+        back.setForeground(new Color(116, 141, 146));
         back.addActionListener(this);
         add(back);
         
-        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/salary2.png"));
+        ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/attendance1.png"));
         JLabel image = new JLabel(i1);
         image.setBounds(540, 120, 560, 455);
         add(image);
@@ -69,8 +61,7 @@ public class attendance extends JFrame implements ActionListener {
       }
     }
         
-    }
     public static void main(String[] args){
-        new attendance();
+        new attendancepanel();
     }
 }

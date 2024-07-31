@@ -70,6 +70,8 @@ public class home extends JFrame implements ActionListener{
           new salary();
 
       } else if(ae.getSource() == attendance){
+          setVisible(false);
+          new attendancepanel();
 
       }else if(ae.getSource() == back){
         setVisible(false);
