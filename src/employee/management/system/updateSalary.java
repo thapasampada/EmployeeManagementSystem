@@ -9,7 +9,7 @@ import net.proteanit.sql.DbUtils;
 public class updateSalary extends JFrame implements ActionListener, ItemListener {
     Choice id;
     JLabel name;
-    JTextField basic, tfliving, tfovertime, tfother, date;
+    JTextField basic, tfliving, tfovertime, tfother;
     JButton update, back, search;
     updateSalary(){
         getContentPane().setBackground(new Color(33, 42, 49));
@@ -93,15 +93,6 @@ public class updateSalary extends JFrame implements ActionListener, ItemListener
         tfother.setForeground(new Color(116, 141, 146));
         add(tfother);
         
-         JLabel datelbl = new JLabel("Date");
-        datelbl.setBounds(20, 360, 160, 30);
-        datelbl.setForeground(new Color(116, 141, 146));
-        add(datelbl);
-        
-        date = new JTextField();
-        date.setBounds(180, 360, 180, 30);
-        date.setForeground(new Color(116, 141, 146));
-        add(date);
         
         try{
             conn c = new conn();
@@ -152,6 +143,7 @@ public class updateSalary extends JFrame implements ActionListener, ItemListener
             String living = tfliving.getText();
             String overtime = tfovertime.getText();
             String other = tfother.getText();
+            String date = new java.util.Date().toString();
             String query = "update salary set basic="+salary+", living="+living+", overtime="+overtime+", other="+other+" where id="+id.getSelectedItem();
 
             try{

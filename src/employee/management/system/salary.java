@@ -61,7 +61,7 @@ public class salary extends JFrame implements ActionListener {
         new updateSalary();
       } else if(ae.getSource() == view){
           setVisible(false);
-          new salary();
+          new viewSalary();
 
       } else if(ae.getSource() == print){
           setVisible(false);

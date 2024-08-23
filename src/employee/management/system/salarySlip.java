@@ -9,7 +9,7 @@ import java.util.Calendar;
 public class salarySlip extends JFrame implements ActionListener {
     Choice cid;
     JTextArea text;
-    JButton print, back;
+    JButton slip, back;
     Font f;
     JPanel panel;
     
@@ -35,9 +35,10 @@ public class salarySlip extends JFrame implements ActionListener {
         lblid.setBounds(80, 520, 160, 30);
         lblid.setFont(f);
         
-        print = new JButton("Generate Pay Slip");
-        print.setBounds(440, 520, 200, 30);
-        print.addActionListener(this);
+        slip = new JButton("Generate Pay Slip");
+        slip.setBounds(440, 520, 200, 30);
+        slip.addActionListener(this);
+        
         
         back = new JButton("Back"); // Initialize the back button
         back.setBounds(660, 520, 100, 30);
@@ -52,7 +53,7 @@ public class salarySlip extends JFrame implements ActionListener {
         panel.setLayout(new GridLayout(1, 4, 10, 10)); // Updated to 4 columns
         panel.add(lblid);
         panel.add(cid);
-        panel.add(print);
+        panel.add(slip);
         panel.add(back);
         
         setLayout(new BorderLayout());
@@ -65,7 +66,7 @@ public class salarySlip extends JFrame implements ActionListener {
     }
    
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == print) {
+        if (e.getSource() == slip) {
             try {
                 conn c = new conn();
                 ResultSet rs = c.s.executeQuery("SELECT * FROM employee WHERE id='" + cid.getSelectedItem() + "'");
@@ -118,8 +119,8 @@ public class salarySlip extends JFrame implements ActionListener {
                 ee.printStackTrace();
             }
         } else if (e.getSource() == back) {
-            
-            this.dispose();
+             setVisible(false);
+            new salary();
         }
     }
    

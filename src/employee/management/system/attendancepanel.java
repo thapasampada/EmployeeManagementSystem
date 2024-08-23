@@ -50,10 +50,10 @@ public class attendancepanel extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent ae){
       if(ae.getSource() == update){
         setVisible(false);
-        
+        new addAttendance();
       } else if(ae.getSource() == view){
           setVisible(false);
-          
+          new viewAttendance();
 
       }else if(ae.getSource() == back){
         setVisible(false);

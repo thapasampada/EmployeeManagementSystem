@@ -3,14 +3,14 @@ package employee.management.system;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.ResultSet;
+import java.sql.*;
 import net.proteanit.sql.DbUtils;
 
-public class viewSalary extends JFrame implements ActionListener {
+public class viewAttendance extends JFrame implements ActionListener {
     JTable table;
     Choice cemployeeid;
-    JButton search, print, update,  back;
-    viewSalary(){
+    JButton search, print, back;
+    viewAttendance(){
         getContentPane().setBackground(new Color(116, 141, 146));
         setLayout(null);
 
@@ -22,6 +22,17 @@ public class viewSalary extends JFrame implements ActionListener {
         cemployeeid.setBounds(180, 20, 150, 20);
         add(cemployeeid);
         
+        try{
+            conn c = new conn();
+            ResultSet rs = c.s.executeQuery("select * from employee");
+            while(rs.next()){
+                cemployeeid.add(rs.getString("id"));
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        
         search = new JButton("Search");
         search.setBounds(20, 70, 80, 20);
         search.addActionListener(this);
@@ -32,13 +43,9 @@ public class viewSalary extends JFrame implements ActionListener {
         print.addActionListener(this);
         add(print);
 
-        update = new JButton("Update");
-        update.setBounds(220, 70, 80, 20);
-        update.addActionListener(this);
-        add(update);
 
         back = new JButton ("Back");
-        back.setBounds(320, 70, 80, 20);
+        back.setBounds(220, 70, 80, 20);
         back.addActionListener(this);
         add(back);
 
@@ -47,7 +54,7 @@ public class viewSalary extends JFrame implements ActionListener {
 
         try{
             conn c = new conn();
-            ResultSet rs = c.s.executeQuery("select * from salary");
+            ResultSet rs = c.s.executeQuery("select * from attendance");
             while(rs.next()){
                 cemployeeid.add(rs.getString("id"));
             }
@@ -58,7 +65,7 @@ public class viewSalary extends JFrame implements ActionListener {
 
         try{
             conn c = new conn();
-            ResultSet rs = c.s.executeQuery("select * from salary");
+            ResultSet rs = c.s.executeQuery("select * from attendance");
             table.setModel(DbUtils.resultSetToTableModel(rs));
 
             while(rs.next()){
@@ -80,7 +87,7 @@ public class viewSalary extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent ae){
         if(ae.getSource() == search){
-            String query = "select * from salary where id = '"+cemployeeid.getSelectedItem()+"'";
+            String query = "select * from attendance where id = '"+cemployeeid.getSelectedItem()+"'";
             try{
                 conn c = new conn();
                 ResultSet rs = c.s.executeQuery(query);
@@ -96,18 +103,12 @@ public class viewSalary extends JFrame implements ActionListener {
                 e.printStackTrace();
             }
         }
-        else if(ae.getSource() == update){
-            setVisible(false);
-            new updateRecords(cemployeeid.getSelectedItem());
-
-        }
         else if(ae.getSource() == back){
             setVisible(false);
-            new salary();
+            new attendancepanel();
         }
     }
-   
-    public static void main(String[] args){
-        new viewSalary();
+    public static void main(String[]args){
+        new viewAttendance();
     }
 }
