@@ -88,7 +88,10 @@ public class addAttendance extends JFrame implements ActionListener, ItemListene
         back.addActionListener(this);
         add(back);
         
-        
+         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("icon/attendance.png"));
+        JLabel image = new JLabel(i1);
+        image.setBounds(460, 40, 200, 200);
+        add(image);
         
         setSize(800, 300);
         setLocation(220, 120);
